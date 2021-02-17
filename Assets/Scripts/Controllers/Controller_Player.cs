@@ -18,39 +18,57 @@ public class Controller_Player : MonoBehaviour
 
     [SerializeField] private float move_inc = 1f;
     [SerializeField] private float move_cd_seconds = 1f;
+    [SerializeField] private float held_thresh_seconds = 0.5f;
 
-    private float last_move_time = 0;
+    private Vector2 move_dir = Vector2.zero;
+    private float last_move_time = 0f;
+    private float held_time = 0f;
 
     // Looks for collisions
-    private bool CheckMove(float x_inc, float y_inc)
+    private bool CheckMove(Vector2 move_dir)
     {
-        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + x_inc, transform.position.y + y_inc), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, mask_collision);
+        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, mask_collision);
         
         return (hit == null);
     }
 
     private void Update()
     {
-        float e_time = Time.time - last_move_time;
-        if (e_time > move_cd_seconds)
+        string player_prefix = (player_number == Player_Number.Player_Two) ? "P2" : "P1";
+        float x_dir = 0f;
+        float y_dir = 0f;
+
+        if (Input.GetButtonUp(player_prefix + "_Left") || Input.GetButtonUp(player_prefix + "_Right"))
         {
-            float x_inc = 0f;
-            float y_inc = 0f;
+            move_dir.x = 0f;
+            held_time = 0f;
+        }
+        if (Input.GetButtonUp(player_prefix + "_Down") || Input.GetButtonUp(player_prefix + "_Up"))
+        {
+            move_dir.y = 0f;
+            held_time = 0f;
+        }
 
-            if (player_number == Player_Number.Player_One)
-            {
-                x_inc = move_inc * (Input.GetButton("P1_Left") ? -1f : (Input.GetButton("P1_Right") ? 1f : 0f));
-                y_inc = move_inc * (Input.GetButton("P1_Down") ? -1f : (Input.GetButton("P1_Up") ? 1f : 0f));
-            }
-            else if (player_number == Player_Number.Player_Two)
-            {
-                x_inc = move_inc * (Input.GetButton("P2_Left") ? -1f : (Input.GetButton("P2_Right") ? 1f : 0f));
-                y_inc = move_inc * (Input.GetButton("P2_Down") ? -1f : (Input.GetButton("P2_Up") ? 1f : 0f));
-            }
+        x_dir = move_inc * (Input.GetButtonDown(player_prefix + "_Left") ? -1f : (Input.GetButtonDown(player_prefix + "_Right") ? 1f : 0f));
+        y_dir = move_inc * (Input.GetButtonDown(player_prefix + "_Down") ? -1f : (Input.GetButtonDown(player_prefix + "_Up") ? 1f : 0f));
 
-            if (CheckMove(x_inc, y_inc))
+        if (Mathf.Abs(x_dir) > 0f || Mathf.Abs(y_dir) > 0f) // At least one of the buttons was just pressed
+        {
+            move_dir = new Vector2(Mathf.Clamp(x_dir + move_dir.x, -1f, 1f), Mathf.Clamp(y_dir + move_dir.y, -1f, 1f));
+            if (CheckMove(move_dir))
             {
-                transform.Translate(new Vector2(x_inc, y_inc));
+                transform.Translate(move_dir);
+            }
+            held_time = 0f;
+        }
+
+        held_time += Time.deltaTime;
+        float e_time = Time.time - last_move_time;
+        if (held_time > held_thresh_seconds && e_time > move_cd_seconds)
+        {
+            if (CheckMove(move_dir))
+            {
+                transform.Translate(move_dir);
             }
 
             // Put move on CD
