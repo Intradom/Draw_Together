@@ -96,11 +96,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f2e1141f7095741a976fddd32f214c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ref_transform_self: {fileID: 5989929692989019487}
   ref_collider_self: {fileID: 5989929692989019480}
-  pn: 0
+  ref_superform: {fileID: 0}
+  script_canvas: {fileID: 0}
+  tag_player: 
+  tag_well: 
+  mask_collision:
+    serializedVersion: 2
+    m_Bits: 0
+  starting_color: {r: 1, g: 1, b: 1, a: 1}
+  player_number: 0
   move_inc: 1
   move_cd_seconds: 0.1
+  held_thresh_seconds: 0.5
 --- !u!61 &5989929692989019480
 BoxCollider2D:
   m_ObjectHideFlags: 0

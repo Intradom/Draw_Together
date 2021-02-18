@@ -11,6 +11,7 @@ public class Manager_Game : MonoBehaviour
     public Color canvas_starting_color = Color.white;
     public int canvas_pixel_width = 32;
     public int canvas_pixel_height = 32;
+    public int super_form_scale = 3;
 
     // Parameters
 

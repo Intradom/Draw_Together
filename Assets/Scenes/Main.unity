@@ -587,6 +587,7 @@ MonoBehaviour:
   canvas_starting_color: {r: 1, g: 1, b: 1, a: 1}
   canvas_pixel_width: 32
   canvas_pixel_height: 32
+  super_form_scale: 3
 --- !u!1001 &162102846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1301,6 +1302,21 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.r
+      value: 0.8621888
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.g
+      value: 0.42986825
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.b
+      value: 0.8679245
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53ccbfe23490b3442996f7988624869a, type: 3}
 --- !u!4 &1108008358 stripped
@@ -1593,6 +1609,27 @@ PrefabInstance:
       propertyPath: starting_color.b
       value: 0.2028302
       objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_well
+      value: Well
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: ref_superform
+      value: 
+      objectReference: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
+        type: 3}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_player
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_wall
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
@@ -1607,7 +1644,7 @@ PrefabInstance:
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.5
+      value: -10.5
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
@@ -2023,6 +2060,21 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.r
+      value: 0.62863064
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.g
+      value: 0.9339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860256684831838019, guid: 53ccbfe23490b3442996f7988624869a,
+        type: 3}
+      propertyPath: well_color.b
+      value: 0.5683072
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53ccbfe23490b3442996f7988624869a, type: 3}
 --- !u!4 &1701652530 stripped
@@ -2409,6 +2461,27 @@ PrefabInstance:
       propertyPath: starting_color.b
       value: 0.066037714
       objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_well
+      value: Well
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: ref_superform
+      value: 
+      objectReference: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
+        type: 3}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_player
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: tag_wall
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
@@ -2420,10 +2493,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4451165312a6273419560e46b7654c0a,
         type: 3}
+    - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.5
+      value: -11.5
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
