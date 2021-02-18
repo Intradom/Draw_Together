@@ -5,8 +5,13 @@ using UnityEngine;
 public class Controller_Player : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D ref_collider_self = null;
+    [SerializeField] private Behavior_Canvas script_canvas = null;
 
+    // Parameters
     [SerializeField] private LayerMask mask_collision = 0;
+    [SerializeField] private Color starting_color = Color.white;
+
+    private Color current_color;
 
     private enum Player_Number
     {
@@ -30,6 +35,18 @@ public class Controller_Player : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, mask_collision);
         
         return (hit == null);
+    }
+
+    private void Move(Vector2 move_dir)
+    {
+        transform.Translate(move_dir);
+
+        script_canvas.SetPixel(transform.position.x, transform.position.y, current_color);
+    }
+
+    private void Start()
+    {
+        current_color = starting_color;
     }
 
     private void Update()
@@ -57,7 +74,7 @@ public class Controller_Player : MonoBehaviour
             move_dir = new Vector2(Mathf.Clamp(x_dir + move_dir.x, -1f, 1f), Mathf.Clamp(y_dir + move_dir.y, -1f, 1f));
             if (CheckMove(move_dir))
             {
-                transform.Translate(move_dir);
+                Move(move_dir);
             }
             held_time = 0f;
         }
@@ -68,7 +85,7 @@ public class Controller_Player : MonoBehaviour
         {
             if (CheckMove(move_dir))
             {
-                transform.Translate(move_dir);
+                Move(move_dir);
             }
 
             // Put move on CD

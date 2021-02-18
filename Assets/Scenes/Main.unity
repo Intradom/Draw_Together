@@ -584,6 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43148f144ed7a83478e0f0e09badaa35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas_starting_color: {r: 1, g: 1, b: 1, a: 1}
   canvas_pixel_width: 32
   canvas_pixel_height: 32
 --- !u!1001 &162102846
@@ -1572,6 +1573,26 @@ PrefabInstance:
       propertyPath: held_thresh_seconds
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: script_canvas
+      value: 
+      objectReference: {fileID: 1312450444}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.g
+      value: 0.2028302
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.b
+      value: 0.2028302
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
@@ -2367,6 +2388,26 @@ PrefabInstance:
         type: 3}
       propertyPath: held_thresh_seconds
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: script_canvas
+      value: 
+      objectReference: {fileID: 1312450444}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.r
+      value: 0.066037714
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.g
+      value: 0.066037714
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: starting_color.b
+      value: 0.066037714
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}

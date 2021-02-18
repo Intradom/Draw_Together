@@ -11,6 +11,20 @@ public class Behavior_Canvas : MonoBehaviour
 
     private Texture2D canvas_copy = null;
     private Vector2Int pixel_size = Vector2Int.zero;
+    private Vector2 reference_corner = Vector2.zero; // Bottom Left of the canvas
+
+    // Lower left is (0, 0)
+    public void SetPixel(float world_x, float world_y, Color c)
+    {
+        Color[] c_array = new Color[pixel_size.x * pixel_size.y];
+        for (int i = 0; i < pixel_size.x * pixel_size.y; ++i)
+        {
+            c_array[i] = c;
+        }
+
+        canvas_copy.SetPixels((int)(world_x - reference_corner.x) * pixel_size.x, (int)(world_y - reference_corner.y) * pixel_size.y, pixel_size.x, pixel_size.y, c_array);
+        canvas_copy.Apply();
+    }
 
     private void Start()
     {
@@ -20,19 +34,8 @@ public class Behavior_Canvas : MonoBehaviour
 
         // Calculate the size of a canvas pixel in pixels
         pixel_size = new Vector2Int(canvas_copy.width / Manager_Game.Instance.canvas_pixel_width, canvas_copy.height / Manager_Game.Instance.canvas_pixel_height);
-    }
 
-    private void Update()
-    {
-        Color nc = new Color(Random.value, Random.value, Random.value, Random.value);
-
-        Color[] c = new Color[pixel_size.x * pixel_size.y];
-        for (int i = 0; i < pixel_size.x * pixel_size.y; ++i)
-        {
-            c[i] = nc;
-        }
-
-        canvas_copy.SetPixels(0, 0, pixel_size.x, pixel_size.y, c);
-        canvas_copy.Apply();
+        // Store the reference corner coordinates
+        reference_corner = new Vector2(ref_SR_self.bounds.min.x, ref_SR_self.bounds.min.y);
     }
 }
