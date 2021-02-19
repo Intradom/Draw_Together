@@ -31,15 +31,42 @@ public class Controller_Player : Controller_Base
         current_color = c;
     }
 
+    public bool CanTransform()
+    {
+        // Check if transformation violates collision bounds
+        int super_scale = Manager_Game.Instance.super_form_scale;
+        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y), new Vector2(ref_collider_self.size.x * super_scale - 1, ref_collider_self.size.y * super_scale - 1), 0, mask_collision);
+        
+        return (hit == null);
+    }
+
+    public void Transform(Color other_color)
+    {
+        var inst = Instantiate(ref_superform, transform.position, Quaternion.identity);
+        Controller_Superform script_superform = inst.GetComponent<Controller_Superform>();
+
+        if (player_number == Player_Number.Player_One)
+        {
+            script_superform.Init(current_color, other_color);
+        }
+        else 
+        {
+            script_superform.Init(other_color, current_color);
+        }
+
+        Destroy(this.gameObject);
+    }
+
     private bool CanMove(Collider2D hit)
     {
         if (hit)
         {
-            if (hit.tag == tag_player)
+            if (hit.tag == tag_player && hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
             {
-                if (hit.gameObject.GetComponent<Controller_Player>().CanTransform())
+                Controller_Player script_player_other = hit.gameObject.GetComponent<Controller_Player>();
+                if (script_player_other.CanTransform())
                 {
-                    hit.gameObject.GetComponent<Controller_Player>().Transform(current_color);
+                    script_player_other.Transform(current_color);
                     Destroy(this.gameObject);
                 }
                 else
@@ -61,32 +88,6 @@ public class Controller_Player : Controller_Base
         }
 
         return true;
-    }
-
-    private bool CanTransform()
-    {
-        // Check if transformation violates collision bounds
-        int super_scale = Manager_Game.Instance.super_form_scale;
-        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y), new Vector2(ref_collider_self.size.x * super_scale - 1, ref_collider_self.size.y * super_scale - 1), 0, mask_collision);
-        
-        return (hit == null);
-    }
-
-    private void Transform(Color other_color)
-    {
-        var inst = Instantiate(ref_superform, transform.position, Quaternion.identity);
-        Controller_Superform script_superform = inst.GetComponent<Controller_Superform>();
-
-        if (player_number == Player_Number.Player_One)
-        {
-            script_superform.Init(current_color, other_color);
-        }
-        else 
-        {
-            script_superform.Init(other_color, current_color);
-        }
-
-        Destroy(this.gameObject);
     }
 
     private void Awake()
