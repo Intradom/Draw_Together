@@ -10,11 +10,14 @@ public class Controller_Superform : Controller_Base
 
     [SerializeField] private float move_inc = 1f;
     [SerializeField] private float pointer_dist = 1f;
+    [SerializeField] private float diagonal_wait_input_seconds = 0.1f; // To differentiate between diagonal movements and separations
 
     private Color p1_color;
     private Color p2_color;
     private Vector2Int p1_dir;
     private Vector2Int p2_dir;
+    private float diagonal_countdown = 0f;
+    private bool diagonal_start = false;
 
     public void Init(Color p1_c, Color p2_c)
     {
@@ -38,6 +41,7 @@ public class Controller_Superform : Controller_Base
     private new void Start()
     {
         base.Start();
+        Move(Vector2.zero, Manager_Game.Instance.super_form_scale);
     }
 
     private void Update()
@@ -81,7 +85,7 @@ public class Controller_Superform : Controller_Base
         float p1_mag = p1_dir.magnitude;
         float p2_mag = p2_dir.magnitude;
         ref_pointer.SetActive(false);
-        if ((p1_mag != 0 && p2_mag == 0) || (p1_mag == 0 && p2_mag != 0)) // One player points in one direction and another player is not moving, display movement indicator
+        if ((p1_mag > 0f && p2_mag == 0f) || (p1_mag == 0f && p2_mag > 0f)) // One player points in one direction and another player is not moving, display movement indicator
         {
             Vector2 move_dir = (p1_mag != 0) ? (Vector2)p1_dir * move_inc : (Vector2)p2_dir * move_inc;
 
@@ -93,7 +97,7 @@ public class Controller_Superform : Controller_Base
                 ref_pointer.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(move_dir.y, move_dir.x) * Mathf.Rad2Deg, Vector3.forward);
             }
         }
-        else if (p1_dir == p2_dir) // Both players point in same direction, check if move possible and move if possible
+        else if (p1_dir == p2_dir && p1_mag > 0f && p2_mag > 0f) // Both players point in same direction, check if move possible and move if possible
         {
             Vector2 move_dir = (Vector2)p1_dir * move_inc;
 
@@ -104,8 +108,18 @@ public class Controller_Superform : Controller_Base
 
             p1_dir = p1_down ? Vector2Int.zero : p1_dir;
             p2_dir = p2_down ? Vector2Int.zero : p2_dir;
+            diagonal_start = false;
         }
-        else if (p1_mag != 0 && p2_mag != 0) // One player points in one direction and another player points in a different direction, separate superform
+        else if (p1_mag > 0 && p2_mag > 0) // One player points in one direction and another player points in a different direction, separate superform
+        {
+            if (!diagonal_start)
+            {
+                diagonal_start = true;
+                diagonal_countdown = Time.time;
+            }
+        }
+
+        if (diagonal_start && (Time.time - diagonal_countdown) > diagonal_wait_input_seconds)
         {
             var p1 = Instantiate(ref_p1_form, this.transform.position + new Vector3(p1_dir.x, p1_dir.y, 0f), Quaternion.identity);
             var p2 = Instantiate(ref_p2_form, this.transform.position + new Vector3(p2_dir.x, p2_dir.y, 0f), Quaternion.identity);
