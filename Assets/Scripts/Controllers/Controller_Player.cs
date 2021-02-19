@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller_Player : MonoBehaviour
+public class Controller_Player : Controller_Base
 {
-    [SerializeField] private BoxCollider2D ref_collider_self = null;
     [SerializeField] private GameObject ref_superform = null;
-    [SerializeField] private Behavior_Canvas script_canvas = null;
-    
-
-    // Tags
-    [SerializeField] private string tag_player = "";
-    [SerializeField] private string tag_wall = "";
-    [SerializeField] private string tag_well = "";
 
     // Parameters
     [SerializeField] private LayerMask mask_collision = 0;
     [SerializeField] private Color starting_color = Color.white;
-
-    private Color current_color;
 
     private enum Player_Number
     {
@@ -36,11 +26,13 @@ public class Controller_Player : MonoBehaviour
     private float last_move_time = 0f;
     private float held_time = 0f;
 
-    // Looks for collisions
-    private bool CanMove(Vector2 move_dir)
+    public void Init(Color c)
     {
-        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0);
-        
+        current_color = c;
+    }
+
+    private bool CanMove(Collider2D hit)
+    {
         if (hit)
         {
             if (hit.tag == tag_player)
@@ -71,13 +63,6 @@ public class Controller_Player : MonoBehaviour
         return true;
     }
 
-    private void Move(Vector2 move_dir)
-    {
-        transform.Translate(move_dir);
-
-        script_canvas.SetPixel(transform.position.x, transform.position.y, current_color);
-    }
-
     private bool CanTransform()
     {
         // Check if transformation violates collision bounds
@@ -104,9 +89,14 @@ public class Controller_Player : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void Start()
+    private void Awake()
     {
         current_color = starting_color;
+    }
+
+    private new void Start()
+    {
+        base.Start();
     }
 
     private void Update()
@@ -132,9 +122,9 @@ public class Controller_Player : MonoBehaviour
         if (Mathf.Abs(x_dir) > 0f || Mathf.Abs(y_dir) > 0f) // At least one of the buttons was just pressed
         {
             move_dir = new Vector2(Mathf.Clamp(x_dir + move_dir.x, -1f, 1f), Mathf.Clamp(y_dir + move_dir.y, -1f, 1f));
-            if (CanMove(move_dir))
+            if (CanMove(CheckMove(move_dir)))
             {
-                Move(move_dir);
+                Move(move_dir, 1);
             }
             held_time = 0f;
         }
@@ -146,9 +136,9 @@ public class Controller_Player : MonoBehaviour
         float e_time = Time.time - last_move_time;
         if (held_time > held_thresh_seconds && e_time > move_cd_seconds)
         {
-            if (CanMove(move_dir))
+            if (CanMove(CheckMove(move_dir)))
             {
-                Move(move_dir);
+                Move(move_dir, 1);
             }
 
             // Put move on CD

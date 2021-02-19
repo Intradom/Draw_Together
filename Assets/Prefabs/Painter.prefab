@@ -97,13 +97,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ref_collider_self: {fileID: 5989929692989019480}
-  ref_superform: {fileID: 0}
-  script_canvas: {fileID: 0}
-  tag_player: 
-  tag_well: 
+  tag_player: Player
+  tag_wall: Wall
+  tag_well: Well
+  ref_superform: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
+    type: 3}
   mask_collision:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   starting_color: {r: 1, g: 1, b: 1, a: 1}
   player_number: 0
   move_inc: 1
