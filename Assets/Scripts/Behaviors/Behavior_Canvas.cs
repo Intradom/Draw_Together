@@ -88,7 +88,7 @@ public class Behavior_Canvas : MonoBehaviour
 
         // Prepare target image
         Texture2D tex_target = Instantiate(target_image) as Texture2D;
-        ref_SR_target.sprite = Sprite.Create(tex_target, new Rect(0f, 0f, tex_target.width, tex_target.height), new Vector2(0.5f, 0.5f), 1);
+        ref_SR_target.sprite = Sprite.Create(tex_target, new Rect(0f, 0f, tex_target.width, tex_target.height), new Vector2(0.5f, 0.5f), 1f);
         ref_SR_target.color = new Color(1f, 1f, 1f, target_display_alpha);
         ref_SR_target.gameObject.SetActive(false);
 
