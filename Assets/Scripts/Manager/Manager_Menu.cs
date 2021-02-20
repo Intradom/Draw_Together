@@ -11,6 +11,7 @@ public class Manager_Menu : MonoBehaviour
 
     // References
     [SerializeField] private SpriteRenderer ref_SR_preview = null;
+    [SerializeField] private Text ref_ui_text_folder = null;
 
     // Parameters
     [SerializeField] private string levels_file_path = ""; // Starting from Assets Folder. Folder contains folders and then images like ../<level_file_path>/<folder>/<images>
@@ -47,6 +48,7 @@ public class Manager_Menu : MonoBehaviour
         Texture2D tex = textures[folder_index][image_index];
         if (tex)
         {
+            ref_ui_text_folder.text = folder_names[folder_index];
             ref_SR_preview.sprite = Sprite.Create(tex, new Rect(0f, 0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 1f);
         }
     }
@@ -63,7 +65,7 @@ public class Manager_Menu : MonoBehaviour
                 //Debug.Log("\t" + level_folder_path);
                 if (Directory.Exists(level_folder_path))
                 {
-                    folder_names.Add(Path.GetDirectoryName(level_folder_path));
+                    folder_names.Add(Path.GetFileName(level_folder_path));
                     List<Texture2D> folder_textures = new List<Texture2D>();
                     string[] levels_path = Directory.GetFiles(level_folder_path);
                     foreach (string level_path in levels_path)
@@ -83,7 +85,7 @@ public class Manager_Menu : MonoBehaviour
                 }
             }
         }
-        Debug.Log(textures.Count);
+        Debug.Log("test");
         RefreshDisplay();
     }
 }
