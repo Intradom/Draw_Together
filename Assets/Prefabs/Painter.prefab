@@ -100,6 +100,7 @@ MonoBehaviour:
   tag_player: Player
   tag_wall: Wall
   tag_well: Well
+  tag_canvas: Canvas
   ref_superform: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
     type: 3}
   mask_collision:

@@ -8,7 +8,7 @@ public class Manager_Game : MonoBehaviour
     // References
 
     // Parameters
-    [SerializeField] private string tag_manager_main = "";
+    //[SerializeField] private string tag_manager_main = "";
     [SerializeField] private string name_menu_scene = "";
 
     // Member Variables

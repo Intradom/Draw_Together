@@ -16,6 +16,8 @@ public class Controller_Superform : Controller_Base
     private Color p2_color;
     private Vector2Int p1_dir;
     private Vector2Int p2_dir;
+    private Vector2Int p1_dir_cd;
+    private Vector2Int p2_dir_cd;
     private float diagonal_countdown = 0f;
     private bool diagonal_start = false;
 
@@ -116,13 +118,16 @@ public class Controller_Superform : Controller_Base
             {
                 diagonal_start = true;
                 diagonal_countdown = Time.time;
-            }
+                p1_dir_cd = p1_dir;
+                p2_dir_cd = p2_dir;
+}
         }
 
         if (diagonal_start && (Time.time - diagonal_countdown) > diagonal_wait_input_seconds)
         {
-            var p1 = Instantiate(ref_p1_form, this.transform.position + new Vector3(p1_dir.x, p1_dir.y, 0f), Quaternion.identity);
-            var p2 = Instantiate(ref_p2_form, this.transform.position + new Vector3(p2_dir.x, p2_dir.y, 0f), Quaternion.identity);
+            Vector2 canvas_scale_multiplier = script_canvas.gameObject.transform.localScale;
+            var p1 = Instantiate(ref_p1_form, this.transform.position + new Vector3(p1_dir_cd.x * canvas_scale_multiplier.x, p1_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
+            var p2 = Instantiate(ref_p2_form, this.transform.position + new Vector3(p2_dir_cd.x * canvas_scale_multiplier.x, p2_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
             p1.GetComponent<Controller_Player>().Init(p1_color);
             p2.GetComponent<Controller_Player>().Init(p2_color);
 

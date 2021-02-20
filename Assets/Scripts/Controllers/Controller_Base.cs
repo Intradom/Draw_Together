@@ -10,6 +10,7 @@ public abstract class Controller_Base : MonoBehaviour
     [SerializeField] protected string tag_player = "";
     [SerializeField] protected string tag_wall = "";
     [SerializeField] protected string tag_well = "";
+    [SerializeField] protected string tag_canvas = "";
 
     protected Behavior_Canvas script_canvas = null;
     protected Color current_color;
@@ -24,13 +25,13 @@ public abstract class Controller_Base : MonoBehaviour
 
     protected void Move(Vector2 move_dir, int scale)
     {
-        transform.Translate(move_dir);
+        transform.Translate(move_dir * script_canvas.gameObject.transform.localScale);
 
         script_canvas.SetPixel(transform.position.x, transform.position.y, current_color, scale);
     }
 
     protected void Start()
     {
-        script_canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Behavior_Canvas>();
+        script_canvas = GameObject.FindGameObjectWithTag(tag_canvas).GetComponent<Behavior_Canvas>();
     }
 }

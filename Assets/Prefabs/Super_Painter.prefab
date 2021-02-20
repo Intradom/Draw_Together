@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 8085046510255435624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children:
   - {fileID: 8653705983479620044}
   m_Father: {fileID: 0}
@@ -181,13 +181,14 @@ MonoBehaviour:
   tag_player: Player
   tag_wall: Wall
   tag_well: Well
+  tag_canvas: Canvas
   ref_pointer: {fileID: 1687431009634706297}
   ref_p1_form: {fileID: 7159493523576040145, guid: 205d5a172421d78489cf303a509f7e77,
     type: 3}
   ref_p2_form: {fileID: 7215959441568808043, guid: e7c8cd6f98a7b724c85ed87bf202bb27,
     type: 3}
   move_inc: 1
-  pointer_dist: 2
+  pointer_dist: 1.5
   diagonal_wait_input_seconds: 0.1
 --- !u!61 &7083907050208264898
 BoxCollider2D:

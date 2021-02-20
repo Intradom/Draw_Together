@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Behavior_Canvas : MonoBehaviour
 {
-    [SerializeField] private Texture2D ref_base_canvas = null;
+    // References
+    [SerializeField] private Texture2D ref_canvas_image = null;
     [SerializeField] private SpriteRenderer ref_SR_self = null;
     [SerializeField] private SpriteRenderer ref_SR_target = null;
 
-    [SerializeField] private Texture2D target_image = null;
+    // Parameters
     [SerializeField] private Color canvas_starting_color = Color.white;
     [SerializeField] private float target_display_alpha = 1.0f;
 
+    // Member Variables
     private Texture2D canvas_copy = null;
+    private Texture2D target_image = null;
     private Vector2Int canvas_size_pixels = Vector2Int.zero;
     private Vector2Int pixel_size = Vector2Int.zero;
     private Vector2 reference_corner = Vector2.zero; // Bottom Left of the canvas
@@ -28,7 +31,7 @@ public class Behavior_Canvas : MonoBehaviour
             c_array[i] = c;
         }
 
-        Vector2Int pixel_coord = new Vector2Int((int)(world_x - reference_corner.x), (int)(world_y - reference_corner.y));
+        Vector2Int pixel_coord = new Vector2Int((int)((world_x - reference_corner.x) / this.transform.localScale.x), (int)((world_y - reference_corner.y) / this.transform.localScale.y));
         int trunc_scale_half = scale / 2;
         int loc_x = (pixel_coord.x - trunc_scale_half) * pixel_size.x;
         int loc_y = (pixel_coord.y - trunc_scale_half) * pixel_size.y;
@@ -66,15 +69,15 @@ public class Behavior_Canvas : MonoBehaviour
         }
 
         float progress_max = 1f / total_pixels;
-        Debug.Log("Diff C: " + ColorDiff(target, current));
-        Debug.Log("Diff P: " + ColorDiff(target, previous));
+        //Debug.Log("Diff C: " + ColorDiff(target, current));
+        //Debug.Log("Diff P: " + ColorDiff(target, previous));
         progress += (ColorDiff(target, current) - ColorDiff(target, previous)) * progress_max;
     }
 
     private void Start()
     {
         // Make a copy of the base canvas texture and add it to the sprite renderer
-        canvas_copy = Instantiate(ref_base_canvas) as Texture2D; 
+        canvas_copy = Instantiate(ref_canvas_image) as Texture2D;
         ref_SR_self.sprite = Sprite.Create(canvas_copy, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Main.Instance.canvas_PPU);
 
         // Calculate the size of a canvas pixel in pixels
@@ -86,6 +89,7 @@ public class Behavior_Canvas : MonoBehaviour
         reference_corner = new Vector2(ref_SR_self.bounds.min.x, ref_SR_self.bounds.min.y);
 
         // Prepare target image
+        target_image = Manager_Main.Instance.GetTargetTexture();
         Texture2D tex_target = Instantiate(target_image) as Texture2D;
         ref_SR_target.sprite = Sprite.Create(tex_target, new Rect(0f, 0f, tex_target.width, tex_target.height), new Vector2(0.5f, 0.5f), 1f);
         ref_SR_target.color = new Color(1f, 1f, 1f, target_display_alpha);

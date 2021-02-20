@@ -14,7 +14,12 @@ public class Manager_Main : MonoBehaviour
     public int super_form_scale = 3;
 
     // Member Variable
-    private Texture2D target_texture = null;
+    [SerializeField] private Texture2D target_texture = null; // Serialize to allow for easier testing
+
+    public Texture2D GetTargetTexture()
+    {
+        return target_texture;
+    }
 
     public void SetTargetTexture(Texture2D tex)
     {
