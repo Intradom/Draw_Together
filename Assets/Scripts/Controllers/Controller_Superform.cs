@@ -41,7 +41,7 @@ public class Controller_Superform : Controller_Base
     private new void Start()
     {
         base.Start();
-        Move(Vector2.zero, Manager_Game.Instance.super_form_scale);
+        Move(Vector2.zero, Manager_Main.Instance.super_form_scale);
     }
 
     private void Update()
@@ -103,7 +103,7 @@ public class Controller_Superform : Controller_Base
 
             if (CanMove(CheckMove(move_dir)))
             {
-                Move(move_dir, Manager_Game.Instance.super_form_scale);
+                Move(move_dir, Manager_Main.Instance.super_form_scale);
             }
 
             p1_dir = p1_down ? Vector2Int.zero : p1_dir;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager_Menu : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class Manager_Menu : MonoBehaviour
     [SerializeField] private Text ref_ui_text_folder = null;
 
     // Parameters
+    [SerializeField] private string tag_manager_main = "";
     [SerializeField] private string levels_file_path = ""; // Starting from Assets Folder. Folder contains folders and then images like ../<level_file_path>/<folder>/<images>
+    [SerializeField] private string name_main_scene = "";
 
     private List<string> folder_names = new List<string>();
     private List<List<Texture2D>> textures = new List<List<Texture2D>>();
@@ -28,6 +31,13 @@ public class Manager_Menu : MonoBehaviour
     public void NextImage() { if (textures.Count > 0) ChangeIndex(ref image_index, 1, textures[folder_index].Count, false); }
 
     public void PreviousImage() { if (textures.Count > 0) ChangeIndex(ref image_index, -1, textures[folder_index].Count, false); }
+
+    public void SelectImage()
+    {
+        GameObject.FindGameObjectWithTag(tag_manager_main).GetComponent<Manager_Main>().SetTargetTexture(textures[folder_index][image_index]);
+
+        SceneManager.LoadScene(name_main_scene);
+    }
 
     private void ChangeIndex(ref int index, int increment, int max_count, bool folder_change)
     {
@@ -85,7 +95,7 @@ public class Manager_Menu : MonoBehaviour
                 }
             }
         }
-        Debug.Log("test");
+
         RefreshDisplay();
     }
 }

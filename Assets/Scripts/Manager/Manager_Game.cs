@@ -1,41 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager_Game : MonoBehaviour
 {
-    // Static instance
-    public static Manager_Game Instance = null;
-
-    // Game Defines
-    public int canvas_pixel_width = 32;
-    public int canvas_pixel_height = 32;
-    public float canvas_PPU = 100f;
-    public int super_form_scale = 3;
-
     // References
-    [SerializeField] private Behavior_Canvas script_canvas = null;
 
     // Parameters
+    [SerializeField] private string tag_manager_main = "";
+    [SerializeField] private string name_menu_scene = "";
 
     // Member Variables
 
-    public Behavior_Canvas GetCanvasScript()
+    public void ReturnToMenu()
     {
-        return script_canvas;
-    }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
+        SceneManager.LoadScene(name_menu_scene);
     }
 }

@@ -34,7 +34,7 @@ public class Controller_Player : Controller_Base
     public bool CanTransform()
     {
         // Check if transformation violates collision bounds
-        int super_scale = Manager_Game.Instance.super_form_scale;
+        int super_scale = Manager_Main.Instance.super_form_scale;
         Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y), new Vector2(ref_collider_self.size.x * super_scale - 1, ref_collider_self.size.y * super_scale - 1), 0, mask_collision);
         
         return (hit == null);

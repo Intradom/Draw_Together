@@ -12,7 +12,6 @@ public class Behavior_Canvas : MonoBehaviour
     [SerializeField] private Color canvas_starting_color = Color.white;
     [SerializeField] private float target_display_alpha = 1.0f;
 
-    private Color[][] progress_tracker;
     private Texture2D canvas_copy = null;
     private Vector2Int canvas_size_pixels = Vector2Int.zero;
     private Vector2Int pixel_size = Vector2Int.zero;
@@ -37,11 +36,11 @@ public class Behavior_Canvas : MonoBehaviour
         canvas_copy.SetPixels(loc_x, loc_y, pixel_size.x * scale, pixel_size.y * scale, c_array);
         canvas_copy.Apply();
 
-        Debug.Log("T: " + (Color32)target_image.GetPixel(pixel_coord.x, pixel_coord.y));
-        Debug.Log("C: " + (Color32)c);
-        Debug.Log("P: " + (Color32)previous_color);
+        //Debug.Log("T: " + (Color32)target_image.GetPixel(pixel_coord.x, pixel_coord.y));
+        //Debug.Log("C: " + (Color32)c);
+        //Debug.Log("P: " + (Color32)previous_color);
         AdjustProgress(target_image.GetPixel(pixel_coord.x, pixel_coord.y), c, previous_color, canvas_size_pixels_total);
-        Debug.Log("Progress: " + progress);
+        //Debug.Log("Progress: " + progress);
         //Color previous_color = progress_tracker[pixel_coord.x][pixel_coord.y];
         //progress_tracker[pixel_coord.x][pixel_coord.y] = c;
     }
@@ -76,10 +75,10 @@ public class Behavior_Canvas : MonoBehaviour
     {
         // Make a copy of the base canvas texture and add it to the sprite renderer
         canvas_copy = Instantiate(ref_base_canvas) as Texture2D; 
-        ref_SR_self.sprite = Sprite.Create(canvas_copy, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Game.Instance.canvas_PPU);
+        ref_SR_self.sprite = Sprite.Create(canvas_copy, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Main.Instance.canvas_PPU);
 
         // Calculate the size of a canvas pixel in pixels
-        canvas_size_pixels = new Vector2Int(Manager_Game.Instance.canvas_pixel_width, Manager_Game.Instance.canvas_pixel_height);
+        canvas_size_pixels = new Vector2Int(Manager_Main.Instance.canvas_pixel_width, Manager_Main.Instance.canvas_pixel_height);
         canvas_size_pixels_total = canvas_size_pixels.x * canvas_size_pixels.y;
         pixel_size = new Vector2Int(canvas_copy.width / canvas_size_pixels.x, canvas_copy.height / canvas_size_pixels.y);
 

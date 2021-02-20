@@ -7,6 +7,8 @@ TagManager:
   - Well
   - Wall
   - Super
+  - Canvas
+  - Manager_Main
   layers:
   - Default
   - TransparentFX

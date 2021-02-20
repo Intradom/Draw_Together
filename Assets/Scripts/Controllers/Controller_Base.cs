@@ -31,6 +31,6 @@ public abstract class Controller_Base : MonoBehaviour
 
     protected void Start()
     {
-        script_canvas = Manager_Game.Instance.GetCanvasScript();
+        script_canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Behavior_Canvas>();
     }
 }
