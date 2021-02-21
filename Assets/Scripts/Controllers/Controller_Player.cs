@@ -7,7 +7,7 @@ public class Controller_Player : Controller_Base
     [SerializeField] private GameObject ref_superform = null;
 
     // Parameters
-    [SerializeField] private LayerMask mask_collision = 0;
+    [SerializeField] private LayerMask layer_mask_player = 0;
     [SerializeField] private Color starting_color = Color.white;
 
     private enum Player_Number
@@ -26,7 +26,7 @@ public class Controller_Player : Controller_Base
     private float last_move_time = 0f;
     private float held_time = 0f;
 
-    public void Init(Color c)
+    public void SetColor(Color c)
     {
         current_color = c;
     }
@@ -35,7 +35,7 @@ public class Controller_Player : Controller_Base
     {
         // Check if transformation violates collision bounds
         int super_scale = Manager_Main.Instance.super_form_scale;
-        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y), new Vector2(ref_collider_self.size.x * super_scale - 1, ref_collider_self.size.y * super_scale - 1), 0, mask_collision);
+        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y), new Vector2(ref_collider_self.size.x * super_scale - 1, ref_collider_self.size.y * super_scale - 1), 0, layer_mask_obstacles);
         
         return (hit == null);
     }
@@ -57,13 +57,29 @@ public class Controller_Player : Controller_Base
         Destroy(this.gameObject);
     }
 
-    private bool CanMove(Collider2D hit)
-    {
-        if (hit)
+    private bool CanMove(Collider2D obstacle_hit)
+    {        
+        if (obstacle_hit)
         {
-            if (hit.tag == tag_player && hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
+            if (obstacle_hit.tag == tag_well)
             {
-                Controller_Player script_player_other = hit.gameObject.GetComponent<Controller_Player>();
+                // Change color to well color
+                current_color = obstacle_hit.gameObject.GetComponent<Behavior_Well>().GetColor();
+
+                return false;
+            }
+            else if (obstacle_hit.tag == tag_wall)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Collider2D player_hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, layer_mask_player);
+
+            if (player_hit && player_hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
+            {
+                Controller_Player script_player_other = player_hit.gameObject.GetComponent<Controller_Player>();
                 if (script_player_other.CanTransform())
                 {
                     script_player_other.Transform(current_color);
@@ -73,17 +89,6 @@ public class Controller_Player : Controller_Base
                 {
                     return false;
                 }
-            }
-            else if (hit.tag == tag_well)
-            {
-                // Change color to well color
-                current_color = hit.gameObject.GetComponent<Behavior_Well>().GetColor();
-
-                return false;
-            }
-            else if (hit.tag == tag_wall)
-            {
-                return false;
             }
         }
 
@@ -98,6 +103,8 @@ public class Controller_Player : Controller_Base
     private new void Start()
     {
         base.Start();
+
+        Move(Vector2.zero, 1);
     }
 
     private void Update()

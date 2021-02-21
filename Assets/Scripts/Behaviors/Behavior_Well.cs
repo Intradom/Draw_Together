@@ -6,15 +6,22 @@ public class Behavior_Well : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer ref_SR_self = null;
 
-    [SerializeField] private Color well_color = Color.white;
+    [SerializeField] private Color well_color = Color.white; // Default color
 
     public Color GetColor()
     {
         return well_color;
     }
 
-    private void Start()
+    public void SetColor(Color c)
     {
+        well_color = c;
+        ref_SR_self.gameObject.SetActive(true);
         ref_SR_self.color = well_color;
+    }
+
+    private void Awake()
+    {
+        ref_SR_self.gameObject.SetActive(false);
     }
 }

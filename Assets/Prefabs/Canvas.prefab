@@ -176,9 +176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e84ffd78fed98428bdea504176bd45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ref_base_canvas: {fileID: 2800000, guid: 9182b78d78a104040a4b52303162d2e5, type: 3}
+  ref_canvas_image: {fileID: 0}
   ref_SR_self: {fileID: 7429130695524164944}
   ref_SR_target: {fileID: 0}
-  target_image: {fileID: 0}
+  script_wells: []
   canvas_starting_color: {r: 1, g: 1, b: 1, a: 1}
   target_display_alpha: 1
+  color_match_threshold: 0.05

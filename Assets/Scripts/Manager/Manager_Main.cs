@@ -16,6 +16,13 @@ public class Manager_Main : MonoBehaviour
     // Member Variable
     [SerializeField] private Texture2D target_texture = null; // Serialize to allow for easier testing
 
+    public Color CombineColors(Color c1, Color c2)
+    {
+        // Big thanks to Meowlo for the collaboration of this line
+        //return (c1 + c2) / 2;
+        return Color.Lerp(c1, c2, 0.5f);
+    }
+
     public Texture2D GetTargetTexture()
     {
         return target_texture;

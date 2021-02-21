@@ -26,13 +26,12 @@ public class Controller_Superform : Controller_Base
         p1_color = p1_c;
         p2_color = p2_c;
 
-        // Big thanks to Meowlo for the collaboration of this line
-        current_color = (p1_color + p2_color) / 2;
+        current_color = Manager_Main.Instance.CombineColors(p1_c, p2_c);
     }
 
-    private bool CanMove(Collider2D hit)
+    private bool CanMove(Collider2D obstacle_hit)
     {
-        if (hit && (hit.tag == tag_well || hit.tag == tag_wall))
+        if (obstacle_hit) // && (hit.tag == tag_well || hit.tag == tag_wall))
         {
             return false;
         }
@@ -43,6 +42,7 @@ public class Controller_Superform : Controller_Base
     private new void Start()
     {
         base.Start();
+
         Move(Vector2.zero, Manager_Main.Instance.super_form_scale);
     }
 
@@ -128,8 +128,8 @@ public class Controller_Superform : Controller_Base
             Vector2 canvas_scale_multiplier = script_canvas.gameObject.transform.localScale;
             var p1 = Instantiate(ref_p1_form, this.transform.position + new Vector3(p1_dir_cd.x * canvas_scale_multiplier.x, p1_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
             var p2 = Instantiate(ref_p2_form, this.transform.position + new Vector3(p2_dir_cd.x * canvas_scale_multiplier.x, p2_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
-            p1.GetComponent<Controller_Player>().Init(p1_color);
-            p2.GetComponent<Controller_Player>().Init(p2_color);
+            p1.GetComponent<Controller_Player>().SetColor(p1_color);
+            p2.GetComponent<Controller_Player>().SetColor(p2_color);
 
             Destroy(this.gameObject);
         }
