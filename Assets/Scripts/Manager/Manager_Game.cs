@@ -15,7 +15,7 @@ public class Manager_Game : MonoBehaviour
 
     // Parameters
     //[SerializeField] private string tag_manager_main = "";
-    [SerializeField] private string name_menu_scene = "";
+    //[SerializeField] private string name_menu_scene = "";
 
     // Member Variables
 
@@ -32,7 +32,8 @@ public class Manager_Game : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene(name_menu_scene);
+        //SceneManager.LoadScene(name_menu_scene);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     private void Awake()

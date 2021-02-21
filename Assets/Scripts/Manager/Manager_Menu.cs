@@ -28,7 +28,7 @@ public class Manager_Menu : MonoBehaviour
     // Parameters
     [SerializeField] private Piece[] pieces = null;
     //[SerializeField] private string levels_file_path = ""; // Starting from Assets Folder. Folder contains folders and then images like ../<level_file_path>/<folder>/<images>
-    [SerializeField] private string name_game_scene = "";
+    //[SerializeField] private string name_game_scene = "";
 
     //private List<string> folder_names = new List<string>();
     //private List<List<string>> titles = new List<List<string>>();
@@ -48,7 +48,8 @@ public class Manager_Menu : MonoBehaviour
     {
         Manager_Main.Instance.SetTargetTexture(pieces[image_index].image);//textures[folder_index][image_index]);
 
-        SceneManager.LoadScene(name_game_scene);
+        //SceneManager.LoadScene(name_game_scene);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void ChangeIndex(ref int index, int increment, int max_count, bool folder_change)
