@@ -29,6 +29,15 @@ public class Controller_Player : Controller_Base
     public void SetColor(Color c)
     {
         current_color = c;
+
+        if (player_number == Player_Number.Player_Two)
+        {
+            Manager_Game.Instance.SetP2Color(current_color);
+        }
+        else
+        {
+            Manager_Game.Instance.SetP1Color(current_color);
+        }
     }
 
     public bool CanTransform()
@@ -45,13 +54,13 @@ public class Controller_Player : Controller_Base
         var inst = Instantiate(ref_superform, transform.position, Quaternion.identity);
         Controller_Superform script_superform = inst.GetComponent<Controller_Superform>();
 
-        if (player_number == Player_Number.Player_One)
+        if (player_number == Player_Number.Player_Two)
         {
-            script_superform.Init(current_color, other_color);
+            script_superform.Init(other_color, current_color);
         }
         else 
         {
-            script_superform.Init(other_color, current_color);
+            script_superform.Init(current_color, other_color);
         }
 
         Destroy(this.gameObject);
@@ -64,7 +73,7 @@ public class Controller_Player : Controller_Base
             if (obstacle_hit.tag == tag_well)
             {
                 // Change color to well color
-                current_color = obstacle_hit.gameObject.GetComponent<Behavior_Well>().GetColor();
+                SetColor(obstacle_hit.gameObject.GetComponent<Behavior_Well>().GetColor());
 
                 return false;
             }

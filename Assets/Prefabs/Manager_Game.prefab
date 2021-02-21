@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5351053844533365162}
   - component: {fileID: 5351053844533365161}
   m_Layer: 0
-  m_Name: Manager_Main
-  m_TagString: Untagged
+  m_Name: Manager_Game
+  m_TagString: Manager_Game
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,8 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43148f144ed7a83478e0f0e09badaa35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas_pixel_width: 32
-  canvas_pixel_height: 32
-  canvas_PPU: 28
-  super_form_scale: 3
+  ref_ui_image_p1: {fileID: 0}
+  ref_ui_image_p2: {fileID: 0}
   name_menu_scene: Menu

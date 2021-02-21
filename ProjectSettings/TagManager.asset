@@ -9,6 +9,7 @@ TagManager:
   - Super
   - Canvas
   - Manager_Main
+  - Manager_Game
   layers:
   - Default
   - TransparentFX

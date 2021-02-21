@@ -7,19 +7,23 @@ using UnityEngine.SceneManagement;
 
 public class Manager_Menu : MonoBehaviour
 {
+    // Static instance
+    public static Manager_Menu Instance = null;
+
     // Constants
     private readonly List<string> IMAGE_EXTENSIONS = new List<string> { ".PSD", ".TIFF", ".JPG", ".TGA", ".PNG", ".GIF", ".BMP", ".IFF", ".PICT"};
 
     // References
     [SerializeField] private SpriteRenderer ref_SR_preview = null;
-    [SerializeField] private Text ref_ui_text_folder = null;
+    [SerializeField] private Text ref_ui_text_category = null;
+    [SerializeField] private Text ref_ui_text_title = null;
 
     // Parameters
-    [SerializeField] private string tag_manager_main = "";
     [SerializeField] private string levels_file_path = ""; // Starting from Assets Folder. Folder contains folders and then images like ../<level_file_path>/<folder>/<images>
     [SerializeField] private string name_game_scene = "";
 
     private List<string> folder_names = new List<string>();
+    private List<List<string>> titles = new List<List<string>>();
     private List<List<Texture2D>> textures = new List<List<Texture2D>>();
     private int folder_index = 0;
     private int image_index = 0;
@@ -34,7 +38,7 @@ public class Manager_Menu : MonoBehaviour
 
     public void SelectImage()
     {
-        GameObject.FindGameObjectWithTag(tag_manager_main).GetComponent<Manager_Main>().SetTargetTexture(textures[folder_index][image_index]);
+        Manager_Main.Instance.SetTargetTexture(textures[folder_index][image_index]);
 
         SceneManager.LoadScene(name_game_scene);
     }
@@ -58,9 +62,15 @@ public class Manager_Menu : MonoBehaviour
         Texture2D tex = textures[folder_index][image_index];
         if (tex)
         {
-            ref_ui_text_folder.text = folder_names[folder_index];
+            ref_ui_text_category.text = folder_names[folder_index];
+            ref_ui_text_title.text = titles[folder_index][image_index];
             ref_SR_preview.sprite = Sprite.Create(tex, new Rect(0f, 0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 1f);
         }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     private void Start()
@@ -77,6 +87,7 @@ public class Manager_Menu : MonoBehaviour
                 {
                     folder_names.Add(Path.GetFileName(level_folder_path));
                     List<Texture2D> folder_textures = new List<Texture2D>();
+                    List<string> folder_titles = new List<string>();
                     string[] levels_path = Directory.GetFiles(level_folder_path);
                     foreach (string level_path in levels_path)
                     {
@@ -89,9 +100,11 @@ public class Manager_Menu : MonoBehaviour
                             tex.LoadImage(file_data);
                             tex.filterMode = FilterMode.Point;
                             folder_textures.Add(tex);
+                            folder_titles.Add(Path.GetFileNameWithoutExtension(level_path));
                         }
                     }
                     textures.Add(folder_textures);
+                    titles.Add(folder_titles);
                 }
             }
         }
