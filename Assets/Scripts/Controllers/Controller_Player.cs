@@ -73,7 +73,11 @@ public class Controller_Player : Controller_Base
             if (obstacle_hit.tag == tag_well)
             {
                 // Change color to well color
-                SetColor(obstacle_hit.gameObject.GetComponent<Behavior_Well>().GetColor());
+                Behavior_Well script_well = obstacle_hit.gameObject.GetComponent<Behavior_Well>();
+                if (script_well.GetEnabled())
+                {
+                    SetColor(script_well.GetColor());
+                }
 
                 return false;
             }
