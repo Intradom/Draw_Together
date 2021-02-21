@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
-      value: Painter One Variant
+      value: Painter One
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
@@ -82,12 +82,12 @@ PrefabInstance:
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -11.63
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 11.38
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
@@ -144,5 +144,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.75
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5989929692989019482, guid: 41c3ba0116cd6f0408d4ba194f21644f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 41c3ba0116cd6f0408d4ba194f21644f, type: 3}

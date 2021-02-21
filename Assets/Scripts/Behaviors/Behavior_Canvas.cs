@@ -118,6 +118,7 @@ public class Behavior_Canvas : MonoBehaviour
         // Make a copy of the base canvas texture and add it to the sprite renderer
         canvas_copy = Instantiate(ref_canvas_image) as Texture2D;
         ref_SR_self.sprite = Sprite.Create(canvas_copy, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Main.Instance.canvas_PPU);
+        //ref_SR_self.sprite = Sprite.Create(ref_canvas_image, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Main.Instance.canvas_PPU);
 
         // Calculate the size of a canvas pixel in pixels
         canvas_size_pixels = new Vector2Int(Manager_Main.Instance.canvas_pixel_width, Manager_Main.Instance.canvas_pixel_height);
@@ -130,6 +131,7 @@ public class Behavior_Canvas : MonoBehaviour
         // Prepare target image
         target_image = Manager_Main.Instance.GetTargetTexture();
         Texture2D tex_target = Instantiate(target_image) as Texture2D;
+        //Texture2D tex_target = target_image;
         ref_SR_target.sprite = Sprite.Create(tex_target, new Rect(0f, 0f, tex_target.width, tex_target.height), new Vector2(0.5f, 0.5f), 1f);
         ref_SR_target.color = new Color(1f, 1f, 1f, target_display_alpha);
         ref_SR_target.gameObject.SetActive(false);
