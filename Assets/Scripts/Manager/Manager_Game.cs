@@ -10,18 +10,21 @@ public class Manager_Game : MonoBehaviour
     public static Manager_Game Instance = null;
 
     // References
+    [SerializeField] private Image ref_ui_image_win = null;
     [SerializeField] private Image ref_ui_image_p1 = null;
     [SerializeField] private Image ref_ui_image_p2 = null;
+    [SerializeField] private Slider ref_ui_slider_progress = null;
 
     // Parameters
     //[SerializeField] private string tag_manager_main = "";
     //[SerializeField] private string name_menu_scene = "";
+    [SerializeField] private float win_threshold = 1f;
 
     // Member Variables
+    private bool won = false;
 
     public void SetP1Color(Color c)
     {
-        Debug.Log("run");
         ref_ui_image_p1.color = c; 
     }
 
@@ -30,14 +33,38 @@ public class Manager_Game : MonoBehaviour
         ref_ui_image_p2.color = c;
     }
 
+    public void UpdateProgress(float p)
+    {
+        ref_ui_slider_progress.value = p;
+        if (p >= win_threshold)
+        {
+            if (!won)
+            {
+                ref_ui_image_win.gameObject.SetActive(true);
+            }
+            won = true;
+        }
+    }
+
     public void ReturnToMenu()
     {
         //SceneManager.LoadScene(name_menu_scene);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
+    public void CloseMenu()
+    {
+        ref_ui_image_win.gameObject.SetActive(false);
+    }
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        won = false;
+        ref_ui_image_win.gameObject.SetActive(false);
     }
 }

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1626,7 +1626,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 881f24ceaf70ba648b8aa7d0925c9414, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9435132b6f8824349bea8b5009704438, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1851,6 +1851,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 979104949371642904, guid: 35f4448aab7566b4d9834a8bdef33e1f,
+        type: 3}
+      propertyPath: target_texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 9435132b6f8824349bea8b5009704438, type: 3}
     - target: {fileID: 979104949371642905, guid: 35f4448aab7566b4d9834a8bdef33e1f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1978,7 +1983,7 @@ PrefabInstance:
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
@@ -2024,32 +2029,32 @@ PrefabInstance:
         type: 3}
       propertyPath: pieces.Array.data[0].image
       value: 
-      objectReference: {fileID: 2800000, guid: f33323928cf200642af72d07c4c0d7ca, type: 3}
+      objectReference: {fileID: 2800000, guid: b336a2f98033ff5449d67c1d3562a27f, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[1].image
       value: 
-      objectReference: {fileID: 2800000, guid: b7e93c06243ce3948809f3814eea54dc, type: 3}
+      objectReference: {fileID: 2800000, guid: 912f3fc3f6b817a49a11cdadeab5407e, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[2].image
       value: 
-      objectReference: {fileID: 2800000, guid: 881f24ceaf70ba648b8aa7d0925c9414, type: 3}
+      objectReference: {fileID: 2800000, guid: 143f79695b7c71d4a9e33e53d92c3796, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[3].image
       value: 
-      objectReference: {fileID: 2800000, guid: f0155b5882e24f44dacf01bfa51e7630, type: 3}
+      objectReference: {fileID: 2800000, guid: 35a39955f47342946a5186cabd6640ff, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[4].image
       value: 
-      objectReference: {fileID: 2800000, guid: f5f062c56cea7fb4192481ecaae4c884, type: 3}
+      objectReference: {fileID: 2800000, guid: 9435132b6f8824349bea8b5009704438, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[5].image
       value: 
-      objectReference: {fileID: 2800000, guid: 0c68dcc04670087478819f4d18bf2827, type: 3}
+      objectReference: {fileID: 2800000, guid: 25438a3852e091449ad99692ebc5a9c7, type: 3}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[1].title
@@ -2058,17 +2063,17 @@ PrefabInstance:
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[4].title
-      value: schturburry milk
+      value: pepedance
       objectReference: {fileID: 0}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[3].title
-      value: not vaporwave kitty
+      value: I Scream
       objectReference: {fileID: 0}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[2].title
-      value: pepedance
+      value: chickenboy
       objectReference: {fileID: 0}
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
@@ -2078,8 +2083,28 @@ PrefabInstance:
     - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: pieces.Array.data[5].title
+      value: schturburry milk
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
+        type: 3}
+      propertyPath: pieces.Array.data[6].title
+      value: not vaporwave kitty
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
+        type: 3}
+      propertyPath: pieces.Array.data[6].image
+      value: 
+      objectReference: {fileID: 2800000, guid: 67d30776828832b48abd06d300be9ac1, type: 3}
+    - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
+        type: 3}
+      propertyPath: pieces.Array.data[7].title
       value: built different
       objectReference: {fileID: 0}
+    - target: {fileID: 2509363270008461469, guid: 271a13b9b39ae164cbba207d0f323d59,
+        type: 3}
+      propertyPath: pieces.Array.data[7].image
+      value: 
+      objectReference: {fileID: 2800000, guid: 3e025278662b91940908759d61d63a95, type: 3}
     - target: {fileID: 2509363270008461471, guid: 271a13b9b39ae164cbba207d0f323d59,
         type: 3}
       propertyPath: m_Name

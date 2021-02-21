@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Manager_Menu : MonoBehaviour
 {
     [System.Serializable]
-    private struct Piece
+    public struct Piece
     {
         public string title;
         public Texture2D image;

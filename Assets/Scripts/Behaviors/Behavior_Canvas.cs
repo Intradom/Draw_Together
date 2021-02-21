@@ -57,6 +57,11 @@ public class Behavior_Canvas : MonoBehaviour
     private float progress = 0f; // 0 is perfect match, 1 is nothing matches
     private int canvas_size_pixels_total = 0;
 
+    public void SetPreviewOpacity(float a)
+    {
+        ref_SR_target.color = new Color(ref_SR_target.color.r, ref_SR_target.color.b, ref_SR_target.color.g, a);
+    }
+
     // Lower left is (0, 0)
     public void SetPixel(float world_x, float world_y, Color c, int scale)
     {
@@ -98,6 +103,7 @@ public class Behavior_Canvas : MonoBehaviour
         float progress_max = 1f / total_pixels;
         //Debug.Log(ColorDiff(target, start));
         progress += ColorDiff(target, start) * progress_max;
+        Manager_Game.Instance.UpdateProgress(1f - progress);
     }
 
     private void AdjustProgress(Color target, Color current, Color previous, int total_pixels)
@@ -111,6 +117,7 @@ public class Behavior_Canvas : MonoBehaviour
         //Debug.Log("Diff C: " + ColorDiff(target, current));
         //Debug.Log("Diff P: " + ColorDiff(target, previous));
         progress += (ColorDiff(target, current) - ColorDiff(target, previous)) * progress_max;
+        Manager_Game.Instance.UpdateProgress(1f - progress);
     }
 
     private void Start()
