@@ -29,16 +29,6 @@ public class Controller_Superform : Controller_Base
         current_color = Manager_Main.Instance.CombineColors(p1_c, p2_c);
     }
 
-    private bool CanMove(Collider2D obstacle_hit)
-    {
-        if (obstacle_hit) // && (hit.tag == tag_well || hit.tag == tag_wall))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     private new void Start()
     {
         base.Start();
@@ -91,7 +81,7 @@ public class Controller_Superform : Controller_Base
         {
             Vector2 move_dir = (p1_mag != 0) ? (Vector2)p1_dir * move_inc : (Vector2)p2_dir * move_inc;
 
-            if (CanMove(CheckMove(move_dir)))
+            if (CanMove(move_dir))
             {
                 //move_dir.Normalize();
                 ref_pointer.SetActive(true);
@@ -103,7 +93,7 @@ public class Controller_Superform : Controller_Base
         {
             Vector2 move_dir = (Vector2)p1_dir * move_inc;
 
-            if (CanMove(CheckMove(move_dir)))
+            if (CanMove(move_dir))
             {
                 Move(move_dir, Manager_Main.Instance.super_form_scale);
             }

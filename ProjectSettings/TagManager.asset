@@ -10,6 +10,7 @@ TagManager:
   - Canvas
   - Manager_Main
   - Manager_Game
+  - Fill
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - 
   - Obstacles
-  - Player
+  - Interactable
   - 
   - 
   - 

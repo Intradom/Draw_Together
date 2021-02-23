@@ -7,7 +7,7 @@ public class Controller_Player : Controller_Base
     [SerializeField] private GameObject ref_superform = null;
 
     // Parameters
-    [SerializeField] private LayerMask layer_mask_player = 0;
+    [SerializeField] private LayerMask layer_mask_interactable = 0;
     [SerializeField] private Color starting_color = Color.white;
 
     private enum Player_Number
@@ -66,46 +66,35 @@ public class Controller_Player : Controller_Base
         Destroy(this.gameObject);
     }
 
-    private bool CanMove(Collider2D obstacle_hit)
-    {        
-        if (obstacle_hit)
+    private void CheckMove(Vector2 move_dir)
+    {
+        Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, layer_mask_interactable);
+
+        if (hit)
         {
-            if (obstacle_hit.tag == tag_well)
+            if (hit.tag == tag_well)
             {
                 // Change color to well color
-                Behavior_Well script_well = obstacle_hit.gameObject.GetComponent<Behavior_Well>();
+                Behavior_Well script_well = hit.gameObject.GetComponent<Behavior_Well>();
                 if (script_well.GetEnabled())
                 {
                     SetColor(script_well.GetColor());
                 }
-
-                return false;
             }
-            else if (obstacle_hit.tag == tag_wall)
+            else if (hit.tag == tag_fill)
             {
-                return false;
+                hit.gameObject.GetComponent<Behavior_Fill>().Toggle(current_color);
             }
-        }
-        else
-        {
-            Collider2D player_hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, layer_mask_player);
-
-            if (player_hit && player_hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
+            else if (hit.tag == tag_player && hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
             {
-                Controller_Player script_player_other = player_hit.gameObject.GetComponent<Controller_Player>();
+                Controller_Player script_player_other = hit.gameObject.GetComponent<Controller_Player>();
                 if (script_player_other.CanTransform())
                 {
                     script_player_other.Transform(current_color);
                     Destroy(this.gameObject);
                 }
-                else
-                {
-                    return false;
-                }
             }
         }
-
-        return true;
     }
 
     private void Awake()
@@ -143,7 +132,8 @@ public class Controller_Player : Controller_Base
         if (Mathf.Abs(x_dir) > 0f || Mathf.Abs(y_dir) > 0f) // At least one of the buttons was just pressed
         {
             move_dir = new Vector2(Mathf.Clamp(x_dir + move_dir.x, -1f, 1f), Mathf.Clamp(y_dir + move_dir.y, -1f, 1f));
-            if (CanMove(CheckMove(move_dir)))
+            CheckMove(move_dir);
+            if (CanMove(move_dir))
             {
                 Move(move_dir, 1);
             }
@@ -157,7 +147,7 @@ public class Controller_Player : Controller_Base
         float e_time = Time.time - last_move_time;
         if (held_time > held_thresh_seconds && e_time > move_cd_seconds)
         {
-            if (CanMove(CheckMove(move_dir)))
+            if (CanMove(move_dir))
             {
                 Move(move_dir, 1);
             }

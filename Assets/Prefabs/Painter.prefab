@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 3.2, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5989929692989019481
@@ -100,15 +100,16 @@ MonoBehaviour:
   tag_player: Player
   tag_wall: Wall
   tag_well: Well
+  tag_fill: Fill
   tag_canvas: Canvas
   layer_mask_obstacles:
     serializedVersion: 2
     m_Bits: 256
   ref_superform: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
     type: 3}
-  layer_mask_player:
+  layer_mask_interactable:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   starting_color: {r: 1, g: 1, b: 1, a: 1}
   player_number: 0
   move_inc: 1

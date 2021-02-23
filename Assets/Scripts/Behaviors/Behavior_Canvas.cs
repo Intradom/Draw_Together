@@ -40,6 +40,7 @@ public class Behavior_Canvas : MonoBehaviour
     [SerializeField] private SpriteRenderer ref_SR_self = null;
     [SerializeField] private SpriteRenderer ref_SR_target = null;
     [SerializeField] private Behavior_Well[] script_wells = null;
+    [SerializeField] private Behavior_Fill[] script_fills = null;
     [SerializeField] private Controller_Player script_p1 = null;
     [SerializeField] private Controller_Player script_p2 = null;
 
@@ -47,6 +48,7 @@ public class Behavior_Canvas : MonoBehaviour
     [SerializeField] private Color canvas_starting_color = Color.white;
     [SerializeField] private float target_display_alpha = 1f;
     [SerializeField] private float color_match_threshold = 0f;
+    [SerializeField] private int fill_vote_threshold = 2;
 
     // Member Variables
     private Texture2D canvas_copy = null;
@@ -54,8 +56,28 @@ public class Behavior_Canvas : MonoBehaviour
     private Vector2Int canvas_size_pixels = Vector2Int.zero;
     private Vector2Int pixel_size = Vector2Int.zero;
     private Vector2 reference_corner = Vector2.zero; // Bottom Left of the canvas
-    private float progress = 0f; // 0 is perfect match, 1 is nothing matches
+    private float initial_similarity = 0f;
+    private float similarity = 0f; // Set similarity relative to beginning state
     private int canvas_size_pixels_total = 0;
+    private int fill_votes = 0;
+
+    public void AdjustFillVotes(int vote)
+    {
+        fill_votes += vote;
+        fill_votes = Mathf.Clamp(fill_votes, 0, fill_votes);
+
+        if (fill_votes >= fill_vote_threshold)
+        {
+            Color fill_color = Manager_Main.Instance.CombineColors(script_fills[0].GetColor(), script_fills[1].GetColor());
+            SetPixel(transform.position.x, transform.position.y, fill_color, Manager_Main.Instance.canvas_pixel_height);
+
+            // Reset all fills
+            foreach (Behavior_Fill bf in script_fills)
+            {
+                bf.TurnOff(); // Resets the votes this way
+            }
+        }
+    }
 
     public void SetPreviewOpacity(float a)
     {
@@ -63,6 +85,7 @@ public class Behavior_Canvas : MonoBehaviour
     }
 
     // Lower left is (0, 0)
+    // Only sets square blocks of pixels (can be modified to set rectangles)
     public void SetPixel(float world_x, float world_y, Color c, int scale)
     {
         Color[] c_array = new Color[pixel_size.x * pixel_size.y * scale * scale];
@@ -71,21 +94,28 @@ public class Behavior_Canvas : MonoBehaviour
             c_array[i] = c;
         }
 
-        Vector2Int pixel_coord = new Vector2Int((int)((world_x - reference_corner.x) / this.transform.localScale.x), (int)((world_y - reference_corner.y) / this.transform.localScale.y));
-        int trunc_scale_half = scale / 2;
-        int loc_x = (pixel_coord.x - trunc_scale_half) * pixel_size.x;
-        int loc_y = (pixel_coord.y - trunc_scale_half) * pixel_size.y;
-        Color previous_color = canvas_copy.GetPixel(loc_x, loc_y);
+        // Pixel coordinates of the lower left pixel of the block
+        Vector2Int pixel_coord = new Vector2Int((int)((world_x - reference_corner.x) / this.transform.localScale.x) - scale / 2, (int)((world_y - reference_corner.y) / this.transform.localScale.y) - scale / 2);
+        
+        int loc_x = pixel_coord.x * pixel_size.x;
+        int loc_y = pixel_coord.y * pixel_size.y;
+
+        // Calculate similarity adjustment before applying changes
+        for (int i = 0; i < scale; ++i)
+        {
+            for (int j = 0; j < scale; ++j)
+            {
+                AdjustSimilarity(target_image.GetPixel(pixel_coord.x + i, pixel_coord.y + j), c, canvas_copy.GetPixel((pixel_coord.x + i) * pixel_size.x, (pixel_coord.y + j) * pixel_size.y), canvas_size_pixels_total);
+            }
+        }
+
         canvas_copy.SetPixels(loc_x, loc_y, pixel_size.x * scale, pixel_size.y * scale, c_array);
         canvas_copy.Apply();
 
         //Debug.Log("T: " + (Color32)target_image.GetPixel(pixel_coord.x, pixel_coord.y));
         //Debug.Log("C: " + (Color32)c);
         //Debug.Log("P: " + (Color32)previous_color);
-        AdjustProgress(target_image.GetPixel(pixel_coord.x, pixel_coord.y), c, previous_color, canvas_size_pixels_total);
-        //Debug.Log("Progress: " + progress);
-        //Color previous_color = progress_tracker[pixel_coord.x][pixel_coord.y];
-        //progress_tracker[pixel_coord.x][pixel_coord.y] = c;
+        //Debug.Log("similarity: " + similarity);
     }
 
     private float ColorDiff(Color c1, Color c2)
@@ -98,30 +128,32 @@ public class Behavior_Canvas : MonoBehaviour
         return Mathf.Sqrt(Mathf.Pow(c_yuv_1.y - c_yuv_2.y, 2f) + Mathf.Pow(c_yuv_1.u - c_yuv_2.u, 2f) + Mathf.Pow(c_yuv_1.v - c_yuv_2.v, 2f) + Mathf.Pow(c_yuv_1.a - c_yuv_2.a, 2f));
     }
 
-    private void InitProgress(Color target, Color start, int total_pixels)
+    private void InitSimilarity(Color target, Color start, int total_pixels)
     {
-        float progress_max = 1f / total_pixels;
+        float similarity_max = 1f / total_pixels;
         //Debug.Log(ColorDiff(target, start));
-        progress += ColorDiff(target, start) * progress_max;
-        Manager_Game.Instance.UpdateProgress(1f - progress);
+        similarity += ColorDiff(target, start) * similarity_max;
+        Manager_Game.Instance.UpdateProgress(0f);
     }
 
-    private void AdjustProgress(Color target, Color current, Color previous, int total_pixels)
+    private void AdjustSimilarity(Color target, Color current, Color previous, int total_pixels)
     {
         if (current == previous)
         {
             return;
         }
 
-        float progress_max = 1f / total_pixels;
-        //Debug.Log("Diff C: " + ColorDiff(target, current));
-        //Debug.Log("Diff P: " + ColorDiff(target, previous));
-        progress += (ColorDiff(target, current) - ColorDiff(target, previous)) * progress_max;
-        Manager_Game.Instance.UpdateProgress(1f - progress);
+        float similarity_max = 1f / total_pixels;
+        similarity += (ColorDiff(target, current) - ColorDiff(target, previous)) * similarity_max;
+        Debug.Log("Progress: " + (1 - similarity));
+        Manager_Game.Instance.UpdateProgress((initial_similarity - similarity) / initial_similarity);
     }
 
     private void Start()
     {
+        // Init variables
+        fill_votes = 0;
+
         // Make a copy of the base canvas texture and add it to the sprite renderer
         canvas_copy = Instantiate(ref_canvas_image) as Texture2D;
         ref_SR_self.sprite = Sprite.Create(canvas_copy, new Rect(0f, 0f, canvas_copy.width, canvas_copy.height), new Vector2(0.5f, 0.5f), Manager_Main.Instance.canvas_PPU);
@@ -144,16 +176,18 @@ public class Behavior_Canvas : MonoBehaviour
         ref_SR_target.gameObject.SetActive(false);
 
         // Track pixel color
-        progress = 0f;
+        similarity = 0f;
         HashSet<Color> canvas_colors = new HashSet<Color>();
         for (int i = 0; i < tex_target.width; ++i)
         {
             for (int j = 0; j < tex_target.height; ++j)
             {
                 canvas_colors.Add(tex_target.GetPixel(i, j));
-                InitProgress(tex_target.GetPixel(i, j), canvas_starting_color, canvas_size_pixels_total);
+                InitSimilarity(tex_target.GetPixel(i, j), canvas_starting_color, canvas_size_pixels_total);
             }
         }
+        initial_similarity = similarity;
+        Debug.Log("Initial Sim: " + initial_similarity);
 
         List<Combined_Color> combined_colors = new List<Combined_Color>();
         List<Color> final_colors = new List<Color>();

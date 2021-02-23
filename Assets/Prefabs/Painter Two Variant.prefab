@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5989929692989019480, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019480, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019480, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019480, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: mask_collision.m_Bits
@@ -68,17 +88,37 @@ PrefabInstance:
       propertyPath: tag_wall
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: layer_mask_interactable.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
-      value: Painter Two
+      value: Painter Two Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 420e8baeecb743c428e6b9f4732e4767,
+      objectReference: {fileID: 21300000, guid: 079858e6cdbb096419135f102992703b,
         type: 3}
+    - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989929692989019486, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_LocalPosition.x
