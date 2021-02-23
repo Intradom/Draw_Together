@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Controller_Player : Controller_Base
 {
-    [SerializeField] private GameObject ref_superform = null;
-
     // Parameters
     [SerializeField] private LayerMask layer_mask_interactable = 0;
     [SerializeField] private Color starting_color = Color.white;
@@ -25,6 +23,16 @@ public class Controller_Player : Controller_Base
     private Vector2 move_dir = Vector2.zero;
     private float last_move_time = 0f;
     private float held_time = 0f;
+
+    public override void GetState(out Color color1, out Color color2, out Vector2 pos, out bool is_p1, out bool superform)
+    {
+        color1 = current_color;
+        color2 = current_color;
+        pos = this.transform.position;
+        // Use P2 check so every other player (error) returns as P1
+        is_p1 = (player_number == Player_Number.Player_Two) ? false : true;
+        superform = false;
+    }
 
     public void SetColor(Color c)
     {
@@ -51,50 +59,62 @@ public class Controller_Player : Controller_Base
 
     public void Transform(Color other_color)
     {
-        var inst = Instantiate(ref_superform, transform.position, Quaternion.identity);
+        var inst = Instantiate(Manager_Game.Instance.ref_superform, transform.position, Quaternion.identity);
         Controller_Superform script_superform = inst.GetComponent<Controller_Superform>();
 
         if (player_number == Player_Number.Player_Two)
         {
-            script_superform.Init(other_color, current_color);
+            script_superform.SetColor(other_color, current_color);
         }
         else 
         {
-            script_superform.Init(current_color, other_color);
+            script_superform.SetColor(current_color, other_color);
         }
 
         Destroy(this.gameObject);
     }
 
-    private void CheckMove(Vector2 move_dir)
+    private bool CheckMove(Vector2 move_dir)
     {
         Collider2D hit = Physics2D.OverlapBox(new Vector2(transform.position.x + move_dir.x, transform.position.y + move_dir.y), new Vector2(ref_collider_self.size.x - 1, ref_collider_self.size.y - 1), 0, layer_mask_interactable);
-
+        bool saved_state = false;
         if (hit)
         {
-            if (hit.tag == tag_well)
+            if (hit.tag == Manager_Game.Instance.tag_well)
             {
                 // Change color to well color
                 Behavior_Well script_well = hit.gameObject.GetComponent<Behavior_Well>();
                 if (script_well.GetEnabled())
                 {
-                    SetColor(script_well.GetColor());
+                    Color well_color = script_well.GetColor();
+                    if (well_color != current_color)
+                    {
+                        Manager_Game.Instance.SaveStates();
+                        saved_state = true;
+                        SetColor(well_color);
+                    }
                 }
             }
-            else if (hit.tag == tag_fill)
+            else if (hit.tag == Manager_Game.Instance.tag_fill)
             {
+                Manager_Game.Instance.SaveStates();
+                saved_state = true;
                 hit.gameObject.GetComponent<Behavior_Fill>().Toggle(current_color);
             }
-            else if (hit.tag == tag_player && hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
+            else if (hit.tag == Manager_Game.Instance.tag_player && hit.gameObject.GetInstanceID() != this.gameObject.GetInstanceID()) // Make sure player doesn't collide with itself
             {
                 Controller_Player script_player_other = hit.gameObject.GetComponent<Controller_Player>();
                 if (script_player_other.CanTransform())
                 {
+                    Manager_Game.Instance.SaveStates();
+                    saved_state = true;
                     script_player_other.Transform(current_color);
                     Destroy(this.gameObject);
                 }
             }
         }
+
+        return saved_state;
     }
 
     private void Awake()
@@ -112,8 +132,8 @@ public class Controller_Player : Controller_Base
     private void Update()
     {
         string player_prefix = (player_number == Player_Number.Player_Two) ? "P2" : "P1";
-        float x_dir = 0f;
-        float y_dir = 0f;
+        float x_dir;
+        float y_dir;
 
         if (Input.GetButtonUp(player_prefix + "_Left") || Input.GetButtonUp(player_prefix + "_Right"))
         {
@@ -132,9 +152,10 @@ public class Controller_Player : Controller_Base
         if (Mathf.Abs(x_dir) > 0f || Mathf.Abs(y_dir) > 0f) // At least one of the buttons was just pressed
         {
             move_dir = new Vector2(Mathf.Clamp(x_dir + move_dir.x, -1f, 1f), Mathf.Clamp(y_dir + move_dir.y, -1f, 1f));
-            CheckMove(move_dir);
+            bool saved_state = CheckMove(move_dir);
             if (CanMove(move_dir))
             {
+                if (!saved_state) { Manager_Game.Instance.SaveStates(); }
                 Move(move_dir, 1);
             }
             held_time = 0f;
@@ -147,8 +168,10 @@ public class Controller_Player : Controller_Base
         float e_time = Time.time - last_move_time;
         if (held_time > held_thresh_seconds && e_time > move_cd_seconds)
         {
+            bool saved_state = CheckMove(move_dir);
             if (CanMove(move_dir))
             {
+                if (!saved_state) { Manager_Game.Instance.SaveStates(); }
                 Move(move_dir, 1);
             }
 

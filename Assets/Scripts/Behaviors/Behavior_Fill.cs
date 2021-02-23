@@ -10,6 +10,11 @@ public class Behavior_Fill : MonoBehaviour
 
     private bool on = false;
 
+    public void GetState(out Color color, out bool on)
+    {
+        color = ref_SR_self_color.color;
+        on = this.on;
+    }
 
     public Color GetColor()
     {

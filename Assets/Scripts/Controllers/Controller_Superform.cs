@@ -5,8 +5,6 @@ using UnityEngine;
 public class Controller_Superform : Controller_Base
 {
     [SerializeField] private GameObject ref_pointer = null;
-    [SerializeField] private GameObject ref_p1_form = null;
-    [SerializeField] private GameObject ref_p2_form = null;
 
     [SerializeField] private float move_inc = 1f;
     [SerializeField] private float pointer_dist = 1f;
@@ -21,12 +19,21 @@ public class Controller_Superform : Controller_Base
     private float diagonal_countdown = 0f;
     private bool diagonal_start = false;
 
-    public void Init(Color p1_c, Color p2_c)
+    public void SetColor(Color p1_c, Color p2_c)
     {
         p1_color = p1_c;
         p2_color = p2_c;
 
         current_color = Manager_Main.Instance.CombineColors(p1_c, p2_c);
+    }
+
+    public override void GetState(out Color color1, out Color color2, out Vector2 pos, out bool is_p1, out bool superform)
+    {
+        color1 = p1_color;
+        color2 = p2_color;
+        pos = this.transform.position;
+        is_p1 = true;
+        superform = true;
     }
 
     private new void Start()
@@ -95,6 +102,7 @@ public class Controller_Superform : Controller_Base
 
             if (CanMove(move_dir))
             {
+                Manager_Game.Instance.SaveStates();
                 Move(move_dir, Manager_Main.Instance.super_form_scale);
             }
 
@@ -115,9 +123,10 @@ public class Controller_Superform : Controller_Base
 
         if (diagonal_start && (Time.time - diagonal_countdown) > diagonal_wait_input_seconds)
         {
+            Manager_Game.Instance.SaveStates();
             Vector2 canvas_scale_multiplier = script_canvas.gameObject.transform.localScale;
-            var p1 = Instantiate(ref_p1_form, this.transform.position + new Vector3(p1_dir_cd.x * canvas_scale_multiplier.x, p1_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
-            var p2 = Instantiate(ref_p2_form, this.transform.position + new Vector3(p2_dir_cd.x * canvas_scale_multiplier.x, p2_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
+            GameObject p1 = Instantiate(Manager_Game.Instance.ref_p1_form, this.transform.position + new Vector3(p1_dir_cd.x * canvas_scale_multiplier.x, p1_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
+            GameObject p2 = Instantiate(Manager_Game.Instance.ref_p2_form, this.transform.position + new Vector3(p2_dir_cd.x * canvas_scale_multiplier.x, p2_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);
             p1.GetComponent<Controller_Player>().SetColor(p1_color);
             p2.GetComponent<Controller_Player>().SetColor(p2_color);
 

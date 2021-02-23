@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8653705983479620044
 Transform:
   m_ObjectHideFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7083907050208264898}
   m_Layer: 9
   m_Name: Super_Painter
-  m_TagString: Super
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,18 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ref_collider_self: {fileID: 7083907050208264898}
-  tag_player: Player
-  tag_wall: Wall
-  tag_well: Well
-  tag_canvas: Canvas
   layer_mask_obstacles:
     serializedVersion: 2
     m_Bits: 256
   ref_pointer: {fileID: 1687431009634706297}
-  ref_p1_form: {fileID: 7159493523576040145, guid: 205d5a172421d78489cf303a509f7e77,
-    type: 3}
-  ref_p2_form: {fileID: 7215959441568808043, guid: e7c8cd6f98a7b724c85ed87bf202bb27,
-    type: 3}
   move_inc: 1
   pointer_dist: 1.5
   diagonal_wait_input_seconds: 0.1

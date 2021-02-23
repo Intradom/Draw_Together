@@ -6,17 +6,12 @@ public abstract class Controller_Base : MonoBehaviour
 {
     [SerializeField] protected BoxCollider2D ref_collider_self = null;
 
-    // Tags
-    [SerializeField] protected string tag_player = "";
-    [SerializeField] protected string tag_wall = "";
-    [SerializeField] protected string tag_well = "";
-    [SerializeField] protected string tag_fill = "";
-    [SerializeField] protected string tag_canvas = "";
-
     [SerializeField] protected LayerMask layer_mask_obstacles = 0;
 
     protected Behavior_Canvas script_canvas = null;
     protected Color current_color;
+
+    public abstract void GetState(out Color color1, out Color color2, out Vector2 pos, out bool is_p1, out bool superform);
 
     // Returns true if can move
     protected bool CanMove(Vector2 move_dir)
@@ -35,6 +30,6 @@ public abstract class Controller_Base : MonoBehaviour
 
     protected void Start()
     {
-        script_canvas = GameObject.FindGameObjectWithTag(tag_canvas).GetComponent<Behavior_Canvas>();
+        script_canvas = Manager_Game.Instance.script_canvas;
     }
 }
