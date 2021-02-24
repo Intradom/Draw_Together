@@ -99,6 +99,7 @@ public class Behavior_Canvas : MonoBehaviour
     // Only sets square blocks of pixels (can be modified to set rectangles)
     public void SetPixel(float world_x, float world_y, Color c, int scale)
     {
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXColor();
         Color[] c_array = new Color[pixel_size.x * pixel_size.y * scale * scale];
         for (int i = 0; i < pixel_size.x * pixel_size.y * scale * scale; ++i)
         {

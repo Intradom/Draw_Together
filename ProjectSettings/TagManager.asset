@@ -11,6 +11,7 @@ TagManager:
   - Manager_Main
   - Manager_Game
   - Fill
+  - Manager_Sounds
   layers:
   - Default
   - TransparentFX

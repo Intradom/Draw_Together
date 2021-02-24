@@ -29,6 +29,7 @@ public class Manager_Game : MonoBehaviour
     // References
     public Behavior_Canvas script_canvas = null;
     public Behavior_Fill[] script_fills = null;
+    public GameObject ref_camera = null;
     public GameObject ref_p1_form = null;
     public GameObject ref_p2_form = null;
     public GameObject ref_superform = null;
@@ -47,6 +48,8 @@ public class Manager_Game : MonoBehaviour
     [SerializeField] private Image ref_ui_image_p2 = null;
     [SerializeField] private Slider ref_ui_slider_progress = null;
     [SerializeField] private Slider ref_ui_slider_opacity = null;
+    [SerializeField] private Slider ref_ui_slider_track = null;
+    [SerializeField] private Slider ref_ui_slider_sfx = null;
     [SerializeField] private Text ref_ui_text_undo_count = null;
     [SerializeField] private Text ref_ui_text_progress = null;
 
@@ -59,6 +62,21 @@ public class Manager_Game : MonoBehaviour
     // Member Variables
     private LinkedList<Undo_State> undo_stack = new LinkedList<Undo_State>();
     private bool won = false;
+
+    public void ShakeCamera()
+    {
+        ref_camera.GetComponent<Effect_Shake>().Shake();
+    }
+
+    public void SetTrackVolume(float v)
+    {
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.SetTrackVolume(v);
+    }
+
+    public void SetSFXVolume(float v)
+    {
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.SetSFXVolume(v);
+    }
 
     public void SetOpacitySlider(float v)
     {
@@ -126,8 +144,11 @@ public class Manager_Game : MonoBehaviour
         // Nothing in stack to undo
         if (undo_stack.Count <= 0)
         {
+            if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXError();
             return;
         }
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXUIButton();
+
 
         // Load states for any gameobjects that can change state
         Undo_State state = undo_stack.Last.Value;
@@ -238,12 +259,15 @@ public class Manager_Game : MonoBehaviour
 
     public void ReturnToMenu()
     {
+
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXUIButton();
         //SceneManager.LoadScene(name_menu_scene);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     public void CloseMenu()
     {
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.StopSFX();
         ref_ui_image_win.gameObject.SetActive(false);
     }
 
@@ -259,6 +283,13 @@ public class Manager_Game : MonoBehaviour
 
     private void Start()
     {
+        if (Manager_Sounds.Instance)
+        {
+            Manager_Sounds.Instance.StopSFX();
+            ref_ui_slider_track.value = Manager_Sounds.Instance.GetTrackVolume();
+            ref_ui_slider_sfx.value = Manager_Sounds.Instance.GetSFXVolume();
+        }
+
         won = false;
         ref_ui_image_win.gameObject.SetActive(false);
         SetUndoCount(undo_stack.Count);

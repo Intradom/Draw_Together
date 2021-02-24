@@ -89,6 +89,7 @@ public class Controller_Player : Controller_Base
                     Color well_color = script_well.GetColor();
                     if (well_color != current_color)
                     {
+                        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXColorChange();
                         Manager_Game.Instance.SaveStates();
                         saved_state = true;
                         SetColor(well_color);
@@ -106,10 +107,16 @@ public class Controller_Player : Controller_Base
                 Controller_Player script_player_other = hit.gameObject.GetComponent<Controller_Player>();
                 if (script_player_other.CanTransform())
                 {
+                    if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXTransform();
+                    Manager_Game.Instance.ShakeCamera();
                     Manager_Game.Instance.SaveStates();
                     saved_state = true;
                     script_player_other.Transform(current_color);
                     Destroy(this.gameObject);
+                }
+                else
+                {
+                    if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXError();
                 }
             }
         }
@@ -158,6 +165,10 @@ public class Controller_Player : Controller_Base
                 if (!saved_state) { Manager_Game.Instance.SaveStates(); }
                 Move(move_dir, 1);
             }
+            else
+            {
+                script_shake.Shake();
+            }
             held_time = 0f;
         }
 
@@ -173,6 +184,10 @@ public class Controller_Player : Controller_Base
             {
                 if (!saved_state) { Manager_Game.Instance.SaveStates(); }
                 Move(move_dir, 1);
+            }
+            else
+            {
+                script_shake.Shake();
             }
 
             // Put move on CD

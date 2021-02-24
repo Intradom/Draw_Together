@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5989929692989019486}
   - component: {fileID: 5989929692989019481}
   - component: {fileID: 5989929692989019480}
-  - component: {fileID: 5989929692989019482}
   m_Layer: 9
   m_Name: Painter
   m_TagString: Player
@@ -97,16 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ref_collider_self: {fileID: 5989929692989019480}
-  tag_player: Player
-  tag_wall: Wall
-  tag_well: Well
-  tag_fill: Fill
-  tag_canvas: Canvas
   layer_mask_obstacles:
     serializedVersion: 2
     m_Bits: 256
-  ref_superform: {fileID: 8085046510255435624, guid: fbe354fc55c544445926015c7c51620f,
-    type: 3}
   layer_mask_interactable:
     serializedVersion: 2
     m_Bits: 0
@@ -141,24 +133,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &5989929692989019482
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5989929692989019485}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4

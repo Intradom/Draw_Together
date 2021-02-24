@@ -105,6 +105,10 @@ public class Controller_Superform : Controller_Base
                 Manager_Game.Instance.SaveStates();
                 Move(move_dir, Manager_Main.Instance.super_form_scale);
             }
+            else
+            {
+                script_shake.Shake(Manager_Main.Instance.super_form_scale);                
+            }
 
             p1_dir = p1_down ? Vector2Int.zero : p1_dir;
             p2_dir = p2_down ? Vector2Int.zero : p2_dir;
@@ -123,6 +127,8 @@ public class Controller_Superform : Controller_Base
 
         if (diagonal_start && (Time.time - diagonal_countdown) > diagonal_wait_input_seconds)
         {
+            if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXTransform();
+            Manager_Game.Instance.ShakeCamera();
             Manager_Game.Instance.SaveStates();
             Vector2 canvas_scale_multiplier = script_canvas.gameObject.transform.localScale;
             GameObject p1 = Instantiate(Manager_Game.Instance.ref_p1_form, this.transform.position + new Vector3(p1_dir_cd.x * canvas_scale_multiplier.x, p1_dir_cd.y * canvas_scale_multiplier.y, 0f), Quaternion.identity);

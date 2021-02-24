@@ -24,28 +24,50 @@ public class Manager_Menu : MonoBehaviour
     [SerializeField] private SpriteRenderer ref_SR_preview = null;
     //[SerializeField] private Text ref_ui_text_category = null;
     [SerializeField] private Text ref_ui_text_title = null;
+    [SerializeField] private Slider ref_ui_slider_track = null;
+    [SerializeField] private Slider ref_ui_slider_sfx = null;
 
     // Parameters
     [SerializeField] private Piece[] pieces = null;
     //[SerializeField] private string levels_file_path = ""; // Starting from Assets Folder. Folder contains folders and then images like ../<level_file_path>/<folder>/<images>
     //[SerializeField] private string name_game_scene = "";
 
+    // Member Variables
     //private List<string> folder_names = new List<string>();
     //private List<List<string>> titles = new List<List<string>>();
     //private List<List<Texture2D>> textures = new List<List<Texture2D>>();
     //private int folder_index = 0;
     private int image_index = 0;
 
+    public void SetTrackVolume(float v)
+    {
+        Manager_Sounds.Instance.SetTrackVolume(v);
+    }
+
+    public void SetSFXVolume(float v)
+    {
+        Manager_Sounds.Instance.SetSFXVolume(v);
+    }
+
     //public void NextFolder() { ChangeIndex(ref folder_index, 1, folder_names.Count, true); }
 
     //public void PreviousFolder() { ChangeIndex(ref folder_index, -1, folder_names.Count, true); }
 
-    public void NextImage() { ChangeIndex(ref image_index, 1, pieces.Length, false); }//if (textures.Count > 0) ChangeIndex(ref image_index, 1, textures[folder_index].Count, false); }
+    public void NextImage() 
+    {
+        Manager_Sounds.Instance.PlaySFXUIButton();
+        ChangeIndex(ref image_index, 1, pieces.Length, false); //if (textures.Count > 0) ChangeIndex(ref image_index, 1, textures[folder_index].Count, false); }
+    }
 
-    public void PreviousImage() { ChangeIndex(ref image_index, -1, pieces.Length, false); }//if (textures.Count > 0) ChangeIndex(ref image_index, -1, textures[folder_index].Count, false); }
+    public void PreviousImage() 
+    {
+        Manager_Sounds.Instance.PlaySFXUIButton();
+        ChangeIndex(ref image_index, -1, pieces.Length, false); //if (textures.Count > 0) ChangeIndex(ref image_index, -1, textures[folder_index].Count, false); }
+    }
 
     public void SelectImage()
     {
+        Manager_Sounds.Instance.PlaySFXUIButton();
         Manager_Main.Instance.SetTargetTexture(pieces[image_index].image);//textures[folder_index][image_index]);
 
         //SceneManager.LoadScene(name_game_scene);
@@ -89,6 +111,10 @@ public class Manager_Menu : MonoBehaviour
 
     private void Start()
     {
+        Manager_Sounds.Instance.StopSFX();
+        ref_ui_slider_track.value = Manager_Sounds.Instance.GetTrackVolume();
+        ref_ui_slider_sfx.value = Manager_Sounds.Instance.GetSFXVolume();
+
         /*
         string level_directory = Application.dataPath + "/" + levels_file_path;
         //Debug.Log(level_directory);

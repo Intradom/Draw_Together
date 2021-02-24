@@ -41,9 +41,9 @@ public class Manager_Main : MonoBehaviour
         }
         else if (Instance != null)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
 }
