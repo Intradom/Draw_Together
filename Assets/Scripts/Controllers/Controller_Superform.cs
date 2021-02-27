@@ -25,6 +25,8 @@ public class Controller_Superform : Controller_Base
         p2_color = p2_c;
 
         current_color = Manager_Main.Instance.CombineColors(p1_c, p2_c);
+        ParticleSystem.MainModule settings = particle_splash.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(current_color);
     }
 
     public override void GetState(out Color color1, out Color color2, out Vector2 pos, out bool is_p1, out bool superform)

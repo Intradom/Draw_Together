@@ -108,6 +108,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3661463349325266107, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5989929692989019480, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -199,6 +204,11 @@ PrefabInstance:
       propertyPath: script_shake
       value: 
       objectReference: {fileID: -6969349084056591486}
+    - target: {fileID: 5989929692989019481, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+        type: 3}
+      propertyPath: particle_splash
+      value: 
+      objectReference: {fileID: 4357165933567353717}
     - target: {fileID: 5989929692989019485, guid: 41c3ba0116cd6f0408d4ba194f21644f,
         type: 3}
       propertyPath: m_Name
@@ -303,6 +313,12 @@ GameObject:
 --- !u!4 &7215959441568808041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5989929692989019487, guid: 41c3ba0116cd6f0408d4ba194f21644f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3964502137760213302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4357165933567353717 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 825142675829049923, guid: 41c3ba0116cd6f0408d4ba194f21644f,
     type: 3}
   m_PrefabInstance: {fileID: 3964502137760213302}
   m_PrefabAsset: {fileID: 0}

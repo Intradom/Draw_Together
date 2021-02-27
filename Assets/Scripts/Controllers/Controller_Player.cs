@@ -37,6 +37,8 @@ public class Controller_Player : Controller_Base
     public void SetColor(Color c)
     {
         current_color = c;
+        ParticleSystem.MainModule settings = particle_splash.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(current_color);
 
         if (player_number == Player_Number.Player_Two)
         {
@@ -127,13 +129,15 @@ public class Controller_Player : Controller_Base
     private void Awake()
     {
         current_color = starting_color;
+        ParticleSystem.MainModule settings = particle_splash.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(current_color);
     }
 
     private new void Start()
     {
         base.Start();
 
-        Move(Vector2.zero, 1);
+        script_canvas.SetPixel(transform.position.x, transform.position.y, current_color, 1);
     }
 
     private void Update()
