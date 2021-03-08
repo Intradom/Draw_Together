@@ -52,6 +52,7 @@ public class Manager_Game : MonoBehaviour
     [SerializeField] private Slider ref_ui_slider_sfx = null;
     [SerializeField] private Text ref_ui_text_undo_count = null;
     [SerializeField] private Text ref_ui_text_progress = null;
+    [SerializeField] private Text ref_ui_text_title = null;
 
     // Parameters
     //[SerializeField] private string tag_manager_main = "";
@@ -244,13 +245,13 @@ public class Manager_Game : MonoBehaviour
     {
         p = Mathf.Clamp(p, 0f, 1f);
         ref_ui_slider_progress.value = p;
-        ref_ui_text_progress.text = ((int)(p * 100)).ToString() + "%";
+        ref_ui_text_progress.text = ((int)(p * 100f)).ToString() + "%";
         if (p >= win_threshold)
         {
             ref_ui_text_progress.text = "100%"; // Sometimes the math errors make the number not exactly 100% (stuck at 99%)
             if (!won)
             {
-
+                Manager_Sounds.Instance.PlaySFXWin();
                 ref_ui_image_win.gameObject.SetActive(true);
             }
             won = true;
@@ -293,5 +294,6 @@ public class Manager_Game : MonoBehaviour
         won = false;
         ref_ui_image_win.gameObject.SetActive(false);
         SetUndoCount(undo_stack.Count);
+        ref_ui_text_title.text = Manager_Main.Instance.GetTargetTitle();
     }
 }

@@ -14,7 +14,8 @@ public class Manager_Main : MonoBehaviour
     public int super_form_scale = 3;
 
     // Member Variable
-    [SerializeField] private Texture2D target_texture = null; // Serialize to allow for easier testing
+    [SerializeField] private Texture2D target_texture; // Serialize to allow for easier testing
+    [SerializeField] private string target_title = "";
 
     public Color CombineColors(Color c1, Color c2)
     {
@@ -31,6 +32,16 @@ public class Manager_Main : MonoBehaviour
     public void SetTargetTexture(Texture2D tex)
     {
         target_texture = tex;
+    }
+
+    public string GetTargetTitle()
+    {
+        return target_title;
+    }
+
+    public void SetTargetTitle(string title)
+    {
+        target_title = title;
     }
 
     private void Awake()

@@ -47,6 +47,7 @@ public class Behavior_Canvas : MonoBehaviour
     [SerializeField] private float target_display_alpha = 1f;
     [SerializeField] private float color_match_threshold = 0f;
     [SerializeField] private int fill_vote_threshold = 2;
+    [SerializeField] private int similarity_decimals = 4;
 
     // Member Variables
     private Texture2D canvas_current = null;
@@ -99,7 +100,6 @@ public class Behavior_Canvas : MonoBehaviour
     // Only sets square blocks of pixels (can be modified to set rectangles)
     public void SetPixel(float world_x, float world_y, Color c, int scale)
     {
-        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXColor();
         Color[] c_array = new Color[pixel_size.x * pixel_size.y * scale * scale];
         for (int i = 0; i < pixel_size.x * pixel_size.y * scale * scale; ++i)
         {
@@ -123,11 +123,18 @@ public class Behavior_Canvas : MonoBehaviour
 
         canvas_current.SetPixels(loc_x, loc_y, pixel_size.x * scale, pixel_size.y * scale, c_array);
         canvas_current.Apply();
+        if (Manager_Sounds.Instance) Manager_Sounds.Instance.PlaySFXColor();
 
         //Debug.Log("T: " + (Color32)canvas_target.GetPixel(pixel_coord.x, pixel_coord.y));
         //Debug.Log("C: " + (Color32)c);
         //Debug.Log("P: " + (Color32)previous_color);
         //Debug.Log("similarity: " + similarity);
+    }
+
+    private float DecimalRound(float val)
+    {
+        float round_factor = Mathf.Pow(10f, (float)(similarity_decimals));
+        return (Mathf.Round(val * round_factor) / round_factor);
     }
 
     private float ColorDiff(Color c1, Color c2)
@@ -138,14 +145,16 @@ public class Behavior_Canvas : MonoBehaviour
         ColorYUV c_yuv_2 = new ColorYUV(c2);
 
         float diff = Mathf.Sqrt(Mathf.Pow(c_yuv_1.y - c_yuv_2.y, 2f) + Mathf.Pow(c_yuv_1.u - c_yuv_2.u, 2f) + Mathf.Pow(c_yuv_1.v - c_yuv_2.v, 2f) + Mathf.Pow(c_yuv_1.a - c_yuv_2.a, 2f));
+        diff = DecimalRound(diff);
+        Debug.Log("Diff: " + diff);
         return (diff < color_match_threshold) ? 0f : diff;
     }
 
     private void InitSimilarity(Color target, Color start, int total_pixels)
     {
         float similarity_max = 1f / total_pixels;
-        //Debug.Log(ColorDiff(target, start));
-        similarity += ColorDiff(target, start) * similarity_max;
+        //Debug.Log("IS: " + DecimalRound(ColorDiff(target, start) * similarity_max));
+        similarity += DecimalRound(ColorDiff(target, start) * similarity_max);
         Manager_Game.Instance.UpdateProgress(0f);
     }
 
@@ -158,9 +167,10 @@ public class Behavior_Canvas : MonoBehaviour
         }
 
         float similarity_max = 1f / total_pixels;
-        similarity += (ColorDiff(target, current) - ColorDiff(target, previous)) * similarity_max;
-        //Debug.Log("Progress: " + (1 - similarity));
-        Manager_Game.Instance.UpdateProgress((initial_similarity - similarity) / initial_similarity);
+        similarity += DecimalRound((ColorDiff(target, current) - ColorDiff(target, previous)) * similarity_max);
+        float progress_update = (initial_similarity - similarity) / initial_similarity;
+        Debug.Log("Progress: " + progress_update);
+        Manager_Game.Instance.UpdateProgress(progress_update);
     }
 
     private void Start()

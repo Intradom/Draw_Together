@@ -59,13 +59,13 @@ public class Manager_Sounds : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+        source_track.volume = starting_volume_track;
+        source_sfx.volume = starting_volume_sfx;
     }
 
     public void Start()
     {
-        source_track.volume = starting_volume_track;
-        source_sfx.volume = starting_volume_sfx;
-
         source_track.clip = track_main;
         source_track.loop = true;
         source_track.Play();

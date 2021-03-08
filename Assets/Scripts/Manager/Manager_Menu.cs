@@ -69,6 +69,7 @@ public class Manager_Menu : MonoBehaviour
     {
         Manager_Sounds.Instance.PlaySFXUIButton();
         Manager_Main.Instance.SetTargetTexture(pieces[image_index].image);//textures[folder_index][image_index]);
+        Manager_Main.Instance.SetTargetTitle(pieces[image_index].title);
 
         //SceneManager.LoadScene(name_game_scene);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
